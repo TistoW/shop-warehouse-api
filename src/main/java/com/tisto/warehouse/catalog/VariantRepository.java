@@ -22,7 +22,7 @@ public interface VariantRepository extends JpaRepository<Variant, Long> {
 	@Modifying(flushAutomatically = true, clearAutomatically = true)
 	@Query("""
 			update Variant v
-			set v.stockQuantity = v.stockQuantity + :delta, v.version = v.version + 1, v.updatedAt = current_timestamp
+			set v.stockQuantity = v.stockQuantity + :delta, v.version = v.version + 1, v.updatedAt = instant
 			where v.id = :id and v.active = true and v.stockQuantity + :delta >= 0
 			""")
 	int changeStock(@Param("id") Long id, @Param("delta") int delta);
