@@ -13,7 +13,7 @@ create table variants (
     sku varchar(64) not null unique,
     name varchar(200) not null,
     price numeric(15, 2) not null check (price >= 0),
-    stock_quantity int not null check (stock_quantity >= 0),
+    stock_quantity int not null default 0 check (stock_quantity >= 0),
     active boolean not null default true,
     version bigint not null default 0,
     created_at timestamp with time zone not null,
