@@ -2,8 +2,6 @@
 
 English | [Bahasa Indonesia](README.id.md)
 
-English | [Bahasa Indonesia](README.id.md)
-
 A small REST API for a shop warehouse: items, their variants (size, color and so on), prices and stock levels, plus orders that refuse to sell what is not on the shelf. Built with Java 17 and Spring Boot 3.5.
 
 Live demo: https://geli-api.tisto.my.id opens Swagger UI. The data resets every night and the H2 console is disabled there.
