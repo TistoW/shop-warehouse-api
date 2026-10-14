@@ -48,6 +48,7 @@ public class VariantService {
 		Variant variant = find(id);
 		checkSkuFree(request.sku(), id);
 		variant.update(request.sku(), request.name(), request.price());
+		variants.flush();
 		return VariantResponse.from(variant);
 	}
 

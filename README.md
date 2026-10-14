@@ -62,7 +62,7 @@ If it updates zero rows, the sale is refused. I looked at three options:
 - Pessimistic lock (`SELECT ... FOR UPDATE`): correct, but it is an extra round trip and the lock is held while Java code runs.
 - Optimistic locking with retry: correct, but under contention (a popular item, a flash sale) most attempts fail and have to be retried, which is wasted work.
 
-The conditional update does the check and the write in one statement, so the database serializes competing buyers on the row and nobody oversells. No retry loop is needed. A `@Version` column still exists on variants to protect normal edits (two people editing the same variant), and the stock update bumps it too.
+The conditional update does the check and the write in one statement, so the database serializes competing buyers on the row and nobody oversells. No retry loop is needed. A `@Version` column on variants catches two writes to the same variant racing at the same moment. The version is not exposed to clients (no ETag or If-Match), so it does not stop someone from overwriting a change they never saw. The stock update bumps it too, so a price edit that races with a sale gets a 409 and should simply be retried.
 
 An order is a single transaction. Duplicate variants in the request are merged first, and lines are processed in variant id order so concurrent orders always take row locks in the same order and cannot deadlock. If any line fails, the exception rolls back everything: no partial orders, no half-decremented stock, no orphan ledger rows. A `CHECK (stock_quantity >= 0)` constraint in the schema is the last line of defence if someone ever bypasses the service.
 

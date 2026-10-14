@@ -1,5 +1,6 @@
 package com.tisto.warehouse.catalog;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,6 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -67,7 +70,12 @@ class CatalogApiTest extends ApiTestSupport {
 				.content("{\"sku\": \"%s\", \"name\": \"Default\", \"price\": 12500}".formatted(uniqueSku("NEW"))))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.price").value(12500))
-				.andExpect(jsonPath("$.stockQuantity").value(3));
+				.andExpect(jsonPath("$.stockQuantity").value(3))
+				.andExpect(result -> {
+					String created = JsonPath.read(result.getResponse().getContentAsString(), "$.createdAt");
+					String updated = JsonPath.read(result.getResponse().getContentAsString(), "$.updatedAt");
+					assertThat(Instant.parse(updated)).isAfter(Instant.parse(created));
+				});
 	}
 
 	@Test

@@ -105,6 +105,17 @@ class OrderApiTest extends ApiTestSupport {
 				.andExpect(status().isBadRequest());
 	}
 
+	@Test
+	void rejectsQuantitiesThatCouldOverflow() throws Exception {
+		long variantId = createVariant("10000", 5);
+
+		mvc.perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON).content(order(variantId, Integer.MAX_VALUE)))
+				.andExpect(status().isBadRequest());
+		mvc.perform(post("/api/variants/{id}/stock-adjustments", variantId).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"quantity\": 2147483647, \"reason\": \"RESTOCK\"}"))
+				.andExpect(status().isBadRequest());
+	}
+
 	private static String order(long variantId, int quantity) {
 		return "{\"items\": [{\"variantId\": %d, \"quantity\": %d}]}".formatted(variantId, quantity);
 	}

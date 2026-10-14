@@ -45,6 +45,7 @@ public class ItemService {
 	public ItemResponse update(Long id, UpdateItemRequest request) {
 		Item item = find(id);
 		item.rename(request.name(), request.description());
+		items.flush();
 		return ItemResponse.from(item);
 	}
 
