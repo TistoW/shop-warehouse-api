@@ -6,7 +6,7 @@ Live demo: https://geli-api.tisto.my.id opens Swagger UI. The data resets every 
 
 ## Background
 
-I have solved this problem in production before, just on a different stack. Zenenta (https://zenenta.com) is a POS and back-office system for retail shops, and ZenentaShop (https://zenentashop.com) is its online storefront. Both run on the same product, variant and stock data, so a sale in the store and a sale online draw from one stock count. ChatSaya, an AI WhatsApp assistant I built, reads live prices and stock from Zenenta and can turn a confirmed chat order into a pending order there.
+I have solved this problem in production before, just on a different stack. Zenenta (https://zenenta.com) is a POS and back-office system for retail shops, and ZenentaShop (https://zenentashop.com) is its online storefront. Both run on the same product, variant and stock data, so a sale in the store and a sale online draw from one stock count. ChatSaya (https://chatsaya.com), an AI WhatsApp assistant I built, reads live prices and stock from Zenenta and can turn a confirmed chat order into a pending order there.
 
 Those systems run on NestJS, Prisma and PostgreSQL. This repository is a Java/Spring Boot take on the same core ideas:
 
