@@ -2,6 +2,8 @@
 
 A small REST API for a shop warehouse: items, their variants (size, color and so on), prices and stock levels, plus orders that refuse to sell what is not on the shelf. Built with Java 17 and Spring Boot 3.5.
 
+Live demo: https://geli-api.tisto.my.id opens Swagger UI. The data resets every night and the H2 console is disabled there.
+
 ## Background
 
 I have solved this problem in production before, just on a different stack. Zenenta (https://zenenta.com) is a POS and back-office system for retail shops, and ZenentaShop (https://zenentashop.com) is its online storefront. Both run on the same product, variant and stock data, so a sale in the store and a sale online draw from one stock count. ChatSaya, an AI WhatsApp assistant I built, reads live prices and stock from Zenenta and can turn a confirmed chat order into a pending order there.
@@ -22,7 +24,7 @@ You need Java 17. Maven is not required, the wrapper is included.
 ./mvnw spring-boot:run
 ```
 
-On Windows use `mvnw.cmd spring-boot:run`. The app starts on http://localhost:8080 with an embedded H2 database stored in `./data`, so there is nothing to set up and data survives restarts. The sample data is loaded on first start.
+On Windows use `mvnw.cmd spring-boot:run`. If port 8080 is busy, add `--server.port=9090`. The app starts on http://localhost:8080 with an embedded H2 database stored in `./data`, so there is nothing to set up and data survives restarts. The sample data is loaded on first start.
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - H2 console: http://localhost:8080/h2-console, JDBC URL `jdbc:h2:file:./data/warehouse`, user `sa`, empty password (stop the app first if you open the same file from another tool)
